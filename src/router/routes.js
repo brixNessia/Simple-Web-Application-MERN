@@ -1,7 +1,12 @@
 export default [
   {
-    path: "/sign-up",
+    path: "/sign-in",
     component: "modules/auth/page/Login",
+    auth: false
+  },
+  {
+    path: "/sign-up",
+    component: "modules/auth/page/SignUp",
     auth: false
   },
   {

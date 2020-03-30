@@ -9,11 +9,12 @@ import {
   Typography,
   FormControlLabel,
   Checkbox,
-  Link,
   Box,
   Avatar
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { Link } from "react-router-dom";
+
 import { hakdog } from "assets";
 
 const useStyles = makeStyles(theme => ({
@@ -106,7 +107,7 @@ function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="sign-up" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
