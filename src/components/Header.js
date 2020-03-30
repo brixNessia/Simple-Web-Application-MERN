@@ -1,8 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, Typography, Button, Box } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/core/Menu";
+import { AppBar, Toolbar, Typography, Box } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,7 +22,7 @@ function Header({ children }) {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              Hakdog
+              HAKDOG
             </Typography>
           </Toolbar>
         </AppBar>

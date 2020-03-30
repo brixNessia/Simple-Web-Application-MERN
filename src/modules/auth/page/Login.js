@@ -1,47 +1,120 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import moment from "moment";
 
 import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
   Grid,
   TextField,
   Button,
-  Paper
+  Paper,
+  Typography,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Box,
+  Avatar
 } from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { hakdog } from "assets";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 350,
-    padding: theme.spacing(2)
+    height: "93.5vh"
   },
-  button: {
-    paddingTop: theme.spacing(2)
+  image: {
+    backgroundImage: `url(${hakdog})`,
+    backgroundRepeat: "no-repeat",
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
+    backgroundSize: "cover",
+    backgroundPosition: "center"
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
   }
 }));
 
 function Login() {
   const classes = useStyles();
-  const currentDate = moment(new Date()).format("MMMM DD, YYYY");
+
   return (
-    <Grid container justify="center">
-      <Paper className={classes.root} elevation={3}>
-        <TextField margin="normal" fullWidth label="Email" variant="outlined" />
-        <TextField
-          margin="normal"
-          fullWidth
-          label="Password"
-          variant="outlined"
-        />
-        <Grid container item justify="flex-end" className={classes.button}>
-          <Button variant="contained" color="primary">
-            Sign Up
-          </Button>
-        </Grid>
-      </Paper>
+    <Grid container component="main" className={classes.root}>
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+            <Box mt={5}></Box>
+          </form>
+        </div>
+      </Grid>
     </Grid>
   );
 }

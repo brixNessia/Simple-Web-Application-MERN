@@ -24,7 +24,6 @@ function Private(props) {
   }
 
   const Component = lazy(() => import(`../${component}`));
-  console.log(`../${component}`);
   return (
     <Route
       {...rest}
