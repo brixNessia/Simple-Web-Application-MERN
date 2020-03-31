@@ -4,7 +4,7 @@ import axios from "axios";
 const Http = axios.create();
 
 // set default config
-Http.defaults.baseURL = process.env.REACT_APP_BACKEND_API_URL;
+// Http.defaults.baseURL = process.env.REACT_APP_BACKEND_API_URL;
 Http.defaults.headers.common.Accept = "*/*";
 Http.defaults.headers["Content-Type"] = "application/json";
 
