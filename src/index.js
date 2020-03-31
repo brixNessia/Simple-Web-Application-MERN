@@ -5,6 +5,9 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import store from "./redux/config";
 import { Provider } from "react-redux";
+import { authCheck } from "modules/auth/store/actionCreator";
+
+store.dispatch(authCheck());
 
 ReactDOM.render(
   <Provider store={store}>

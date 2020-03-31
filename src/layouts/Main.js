@@ -1,14 +1,23 @@
-import React, { useState } from "react";
-import clsx from "clsx";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Drawer, Box } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import {
+  Drawer,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText
+} from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import * as userActions from "modules/auth/store/actionCreator";
 
 const drawerWidth = 240;
 
@@ -16,85 +25,72 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
-  toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
+  appBar: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth
   },
-  toolbarIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
-    ...theme.mixins.toolbar
-  },
-
-  drawerPaper: {
-    position: "relative",
-    whiteSpace: "nowrap",
+  drawer: {
     width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+    flexShrink: 0
   },
-  drawerPaperClose: {
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9)
-    }
+  drawerPaper: {
+    width: drawerWidth
   },
-  container: {
-    padding: theme.spacing(4)
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column"
-  },
-  fixedHeight: {
-    height: 240
-  },
-  listSideBar: {
-    paddingLeft: theme.spacing(2)
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(3)
   }
 }));
 
 export default function Main(props) {
   const { children } = props;
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
 
   return (
     <div className={classes.root}>
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          <Typography variant="h6" noWrap>
+            Hakdog
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Drawer
+        className={classes.drawer}
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
+          paper: classes.drawerPaper
         }}
-        open={open}
+        anchor="left"
       >
-        <div className={classes.toolbarIcon}>
-          {open ? (
-            <IconButton onClick={() => setOpen(!open)}>
-              <ChevronLeftIcon />
-            </IconButton>
-          ) : (
-            <MenuIcon onClick={() => setOpen(!open)}>
-              <ChevronLeftIcon />
-            </MenuIcon>
-          )}
-        </div>
+        <div className={classes.toolbar} />
         <Divider />
-        <List className={classes.listSideBar}>List</List>
+        <List>
+          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <ListItem button onClick={() => dispatch(userActions.signOut())}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary="Sign Out" />
+        </ListItem>
         <Divider />
       </Drawer>
       <main className={classes.content}>
-        <Box className={classes.container}>{children}</Box>
+        <div className={classes.toolbar} />
+        {children}
       </main>
     </div>
   );

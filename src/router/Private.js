@@ -1,14 +1,15 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Header from "components/Header";
 import Main from "layouts/Main";
 
 function Private(props) {
   const { component, layout, auth, ...rest } = props;
+  const isLogin = useSelector(({ auth }) => auth);
+  const Component = lazy(() => import(`../${component}`));
 
-  const isLogin = false;
-
-  if (!isLogin) {
+  if (!isLogin.isAuthenticated) {
     return (
       <Route
         {...rest}
@@ -24,7 +25,6 @@ function Private(props) {
     );
   }
 
-  const Component = lazy(() => import(`../${component}`));
   return (
     <Route
       {...rest}

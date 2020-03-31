@@ -1,11 +1,10 @@
+require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const bodyParser = require("body-parser");
-const PORT = 4000;
-const cors = require("cors");
 const mongoose = require("mongoose");
 const config = require("./backend/config/database");
-const usersRoute = require("./backend/routes/user.route");
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db, { useNewUrlParser: true }).then(
@@ -20,8 +19,8 @@ mongoose.connect(config.db, { useNewUrlParser: true }).then(
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/users", usersRoute);
+require("./backend/routes/api")(app);
 
-app.listen(PORT, function() {
-  console.log("Server is running on Port:", PORT);
+app.listen(process.env.REACT_APP_PORT, function() {
+  console.log("Server is running on Port:", process.env.REACT_APP_PORT);
 });

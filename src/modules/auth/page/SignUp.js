@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import { TextField, Grid, Box, Typography, Container } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { useDispatch } from "react-redux";
+
+import * as authService from "../service";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -28,6 +31,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [formState, setFormState] = useState({});
+
+  const handleChange = event => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    setFormState({ ...formState, [name]: value });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -42,14 +54,14 @@ export default function SignUp() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
+                name="first_name"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
                 label="First Name"
                 autoFocus
+                value={formState.first_name}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -57,10 +69,10 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
                 label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                name="last_name"
+                value={formState.last_name}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -68,12 +80,24 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
                 label="Email Address"
                 name="email"
-                autoComplete="email"
+                value={formState.email}
+                onChange={handleChange}
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Username"
+                name="username"
+                value={formState.username}
+                onChange={handleChange}
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -82,23 +106,17 @@ export default function SignUp() {
                 name="password"
                 label="Password"
                 type="password"
-                id="password"
-                autoComplete="current-password"
+                value={formState.password}
+                onChange={handleChange}
               />
             </Grid>
-            {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid> */}
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => dispatch(authService.signup(formState))}
           >
             Sign Up
           </Button>

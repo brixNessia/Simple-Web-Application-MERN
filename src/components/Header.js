@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, Typography, Box } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Grid,
+  Button
+} from "@material-ui/core";
+
+import * as authService from "modules/auth/service";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,6 +26,15 @@ const useStyles = makeStyles(theme => ({
 
 function Header({ children }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const auth = useSelector(({ auth }) => auth);
+
+  useEffect(() => {
+    if (!auth.user && auth.isAuthenticated) {
+      dispatch(authService.getUser());
+    }
+  }, [dispatch, auth.user]);
+
   return (
     <>
       <Box className={classes.root}>

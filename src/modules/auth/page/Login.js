@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { useDispatch, useSelector } from "react-redux";
 import {
   Grid,
   TextField,
   Button,
   Paper,
   Typography,
-  FormControlLabel,
-  Checkbox,
   Box,
   Avatar
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import { hakdog } from "assets";
+import * as authService from "../service";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +52,19 @@ const useStyles = makeStyles(theme => ({
 
 function Login() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const auth = useSelector(({ auth }) => auth);
+  const [formState, setFormState] = useState({});
+
+  const handleChange = event => {
+    const value = event.target.value;
+    const name = event.target.name;
+    setFormState({ ...formState, [name]: value });
+  };
+
+  if (auth.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -70,11 +83,12 @@ function Login() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
+              label="Username"
+              name="username"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
+              value={formState.username}
             />
             <TextField
               variant="outlined"
@@ -86,17 +100,15 @@ function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              onChange={handleChange}
+              value={formState.password}
             />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={() => dispatch(authService.login(formState))}
             >
               Sign In
             </Button>
