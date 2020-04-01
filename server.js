@@ -21,7 +21,7 @@ mongoose.connect(config.db, { useNewUrlParser: true }).then(
 /** Start of Socket.oi */
 
 /**END of Socket.id */
-
+app.use(express.static(__dirname));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
