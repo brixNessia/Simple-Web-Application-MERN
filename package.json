@@ -1,6 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
+  "main": "server.js",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.7",
@@ -31,8 +32,10 @@
     "socket.io-client": "^2.3.0"
   },
   "scripts": {
-    "start": "nodemon  server.js",
-    "heroku-postbuild": "npm install --only=dev && npm install && npm run build"
+    "start": "react-scripts start",
+    "build:fe": "react-scripts build",
+    "build": "nodemon server.jsd",
+    "heroku-postbuild": "npm install && npm run build:fe"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
@@ -54,6 +57,6 @@
     "nodemon": "^2.0.2"
   },
   "engines": {
-    "node": "10.15.0"
+    "node": "12 || 10"
   }
 }
