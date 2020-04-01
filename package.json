@@ -37,7 +37,6 @@
     "build": "nodemon server.jsd",
     "heroku-postbuild": "npm install && npm run build:fe"
   },
-  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": "react-app"
   },
