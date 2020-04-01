@@ -8,7 +8,8 @@ const middlewareEnhancer = applyMiddleware(...middlewares);
 const enhancers = [middlewareEnhancer];
 const composedEnhancers = composeWithDevTools(...enhancers);
 const initialState = {
-  user: {}
+  authentication: {},
+  posts: []
 };
 const store = createStore(reducers, initialState, composedEnhancers);
 

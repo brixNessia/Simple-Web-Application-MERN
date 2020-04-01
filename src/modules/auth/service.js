@@ -12,6 +12,7 @@ export function signup(params) {
     return Http.post("/auth/sign-up", { ...params })
       .then(response => {
         console.log(response);
+        return response.status;
       })
       .catch(error => console.log(error));
   };
@@ -22,12 +23,11 @@ export function login(params) {
     dispatch(requestSignIn());
     return Http.post("/auth/login", { ...params })
       .then(response => {
-        console.log(response);
-
         dispatch(signIn(response.data.token));
       })
       .catch(error => {
         dispatch(failSignIn(error.response.data));
+        console.log(error.response);
       });
   };
 }
@@ -35,7 +35,7 @@ export function login(params) {
 export function getUser() {
   return dispatch => {
     return Http.get("/users/profile/me").then(response => {
-      dispatch(setUser(response.data.data));
+      dispatch(setUser(response.data));
     });
   };
 }
@@ -47,7 +47,7 @@ export function signOutUser() {
         dispatch(signOut());
       })
       .catch(error => {
-        console.log(error);
+        console.log(error.response);
       });
   };
 }

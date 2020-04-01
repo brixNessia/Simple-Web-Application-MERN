@@ -1,20 +1,20 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Drawer,
-  AppBar,
-  Toolbar,
   List,
-  Typography,
+  Avatar,
   Divider,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Grid,
+  Typography
 } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import * as userActions from "modules/auth/store/actionCreator";
@@ -25,10 +25,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
-  appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth
-  },
+
   drawer: {
     width: drawerWidth,
     flexShrink: 0
@@ -42,24 +39,33 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3)
+  },
+  avatar: {
+    height: theme.spacing(8),
+    width: theme.spacing(8)
+  },
+  avatarContainer: {
+    marginTop: theme.spacing(2)
+  },
+  toolbarInner: {
+    minHeight: 15
+  },
+  avatarName: {
+    paddingTop: theme.spacing(1)
   }
 }));
 
 export default function Main(props) {
-  const { children } = props;
+  const { children, userName } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
+  const currentUser = useSelector(({ authentication }) => authentication);
+  const username = currentUser.user && currentUser.user.username;
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" noWrap>
-            Hakdog
-          </Typography>
-        </Toolbar>
-      </AppBar>
+
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -68,13 +74,21 @@ export default function Main(props) {
         }}
         anchor="left"
       >
-        <div className={classes.toolbar} />
-        <Divider />
+        <div className={classes.avatarContainer}>
+          <Grid container item justify="center">
+            <Avatar className={classes.avatar} src="/broken-image.jpg" />
+          </Grid>
+          <Grid container item justify="center" className={classes.avatarName}>
+            <Typography> {`Hi, ${username}`}</Typography>
+          </Grid>
+        </div>
+        <div className={classes.toolbarInner} />
+        {/* <Divider /> */}
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {["Inbox", "Profile"].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon /> : <AccountCircleIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

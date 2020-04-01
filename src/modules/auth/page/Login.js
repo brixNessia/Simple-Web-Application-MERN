@@ -15,11 +15,12 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 
 import { hakdog } from "assets";
+import Notification from "components/Notification";
 import * as authService from "../service";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: "93.5vh"
+    height: "100vh"
   },
   image: {
     backgroundImage: `url(${hakdog})`,
@@ -32,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     backgroundPosition: "center"
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    margin: theme.spacing(30, 4, 0, 4),
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -53,12 +54,12 @@ const useStyles = makeStyles(theme => ({
 function Login() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const auth = useSelector(({ auth }) => auth);
+  const auth = useSelector(({ authentication }) => authentication);
   const [formState, setFormState] = useState({});
 
   const handleChange = event => {
-    const value = event.target.value;
     const name = event.target.name;
+    const value = event.target.value;
     setFormState({ ...formState, [name]: value });
   };
 
@@ -71,6 +72,7 @@ function Login() {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
+          <Notification />
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
@@ -81,19 +83,18 @@ function Login() {
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               label="Username"
               name="username"
               autoComplete="email"
               autoFocus
               onChange={handleChange}
-              value={formState.username}
+              value={formState.username || ""}
+              error={auth.signInFailed}
             />
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               name="password"
               label="Password"
@@ -101,7 +102,8 @@ function Login() {
               id="password"
               autoComplete="current-password"
               onChange={handleChange}
-              value={formState.password}
+              value={formState.password || ""}
+              error={auth.signInFailed}
             />
             <Button
               fullWidth
@@ -113,11 +115,6 @@ function Login() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link to="sign-up" variant="body2">
                   {"Don't have an account? Sign Up"}

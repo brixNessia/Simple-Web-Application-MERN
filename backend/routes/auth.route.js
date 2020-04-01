@@ -51,7 +51,7 @@ authRoutes.route("/login").post(async (req, res) => {
       payload,
       process.env.REACT_APP_ACCESS_TOKEN,
       {
-        expiresIn: 3600
+        expiresIn: "7d"
       },
       (err, token) => {
         if (err) throw err;
@@ -61,7 +61,9 @@ authRoutes.route("/login").post(async (req, res) => {
       }
     );
   } catch (error) {
-    console.log(error);
+    res.status(400).json({
+      message: "error"
+    });
 
     res.status(500).json({
       message: "Server Error"

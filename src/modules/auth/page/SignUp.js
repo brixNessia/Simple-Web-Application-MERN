@@ -6,6 +6,7 @@ import { TextField, Grid, Box, Typography, Container } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import * as authService from "../service";
 
@@ -32,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 export default function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [formState, setFormState] = useState({});
 
   const handleChange = event => {
@@ -39,6 +41,17 @@ export default function SignUp() {
     const value = event.target.value;
 
     setFormState({ ...formState, [name]: value });
+  };
+  const handleSignUp = () => {
+    dispatch(authService.signup(formState))
+      .then(res => {
+        if (res === 200) {
+          history.push("/sign-in");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
@@ -60,7 +73,7 @@ export default function SignUp() {
                 fullWidth
                 label="First Name"
                 autoFocus
-                value={formState.first_name}
+                value={formState.first_name || ""}
                 onChange={handleChange}
               />
             </Grid>
@@ -71,7 +84,7 @@ export default function SignUp() {
                 fullWidth
                 label="Last Name"
                 name="last_name"
-                value={formState.last_name}
+                value={formState.last_name || ""}
                 onChange={handleChange}
               />
             </Grid>
@@ -82,7 +95,7 @@ export default function SignUp() {
                 fullWidth
                 label="Email Address"
                 name="email"
-                value={formState.email}
+                value={formState.email || ""}
                 onChange={handleChange}
               />
             </Grid>
@@ -93,7 +106,7 @@ export default function SignUp() {
                 fullWidth
                 label="Username"
                 name="username"
-                value={formState.username}
+                value={formState.username || ""}
                 onChange={handleChange}
               />
             </Grid>
@@ -106,7 +119,7 @@ export default function SignUp() {
                 name="password"
                 label="Password"
                 type="password"
-                value={formState.password}
+                value={formState.password || ""}
                 onChange={handleChange}
               />
             </Grid>
@@ -116,7 +129,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={() => dispatch(authService.signup(formState))}
+            onClick={handleSignUp}
           >
             Sign Up
           </Button>

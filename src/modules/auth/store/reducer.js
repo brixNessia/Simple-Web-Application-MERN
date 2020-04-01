@@ -56,6 +56,11 @@ function reducer(state = initialState, action) {
         ...state,
         user: payload
       };
+    case types.AUTH_SIGNUP_FAILED:
+      return {
+        ...state,
+        error: payload
+      };
     default:
       return state;
   }

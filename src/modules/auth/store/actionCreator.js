@@ -38,3 +38,10 @@ export function setUser(user) {
     payload: user
   };
 }
+
+export function signUpError(error) {
+  return {
+    type: types.AUTH_SIGNUP_FAILED,
+    payload: error
+  };
+}
