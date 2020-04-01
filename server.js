@@ -28,11 +28,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 require("./backend/routes/api")(app);
 
-app.use(express.static(path.join(__dirname, "client", "build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
-
 app.listen(process.env.REACT_APP_PORT, function() {
   console.log("Server is running on Port:", process.env.REACT_APP_PORT);
 });
