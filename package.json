@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "server.js",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.7",
@@ -37,6 +37,7 @@
     "build": "nodemon server.jsd",
     "heroku-postbuild": "npm install && npm run build:fe"
   },
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": "react-app"
   },
