@@ -35,7 +35,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "chmod +x react-scripts && react-scripts build"
+    "build": "react-scripts build"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
