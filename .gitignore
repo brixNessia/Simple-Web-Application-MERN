@@ -2,10 +2,10 @@
 
 # dependencies
 /node_modules
-/client/node_modules
+client/node_modules
 /.pnp
 .pnp.js
-config/default.json
+client/config/default.json
 
 # testing
 /coverage
