@@ -13,9 +13,8 @@
     "mongoose": "^5.9.6"
   },
   "scripts": {
-    "client": "npm install --prefix client",
-    "start": "NODE_ENV=production node server.js",
-    "heroku-postbuild": "npm --prefix client install"
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "engines": {
     "node": "12 || 10"
